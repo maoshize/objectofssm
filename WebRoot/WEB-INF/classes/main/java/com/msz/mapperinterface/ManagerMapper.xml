@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper    
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="main.java.com.msz.mapperinterface.ManagerMapper">
+	<insert id="insertAccepted" parameterType="main.java.com.msz.entity.Accepted">
+		INSERT INTO accepted
+		(a_ud_id,a_deliverTime,a_check,
+		a_interview,a_interviewTime,a_hire,
+		a_hireTime,a_delete,a_manager)
+		VALUES
+		(#{a_ud_id},#{a_deliverTime},#{a_check},
+		#{a_interview},#{a_interviewTime},#{a_hire},
+		#{a_hireTime},#{a_delete},#{a_manager});
+	</insert>
+	<update id="updateCheck" parameterType="java.lang.Integer">
+		UPDATE accepted 
+		SET a_check= 'y'
+		WHERE a_manager=#{a_manager}
+	</update>
+	<update id="updateInterviewMessage" parameterType="java.util.HashMap">
+
+		UPDATE accepted
+		SET a_interview = 'd', a_interviewTime=#{a_interviewTime}
+		WHERE a_ud_id=#{a_ud_id}
+
+	</update>
+	<select id="getAllUserDetails" resultType="main.java.com.msz.entity.UserDetail">
+		SELECT * FROM userDetail
+		
+	</select>
+	<select id="getListOfUserDetailByManager" resultType="main.java.com.msz.entity.UserDetail"
+		parameterType="java.lang.Integer">
+		SELECT ud_id, ud_realName,ud_age,ud_gender,
+		ud_nation,ud_native,ud_education,
+		ud_experience,ud_school,ud_health,
+		ud_phone,ud_email,ud_address,ud_hobby,
+		ud_entryTime,ud_leaveTime,ud_p_id,ud_u_id
+		FROM userdetail,accepted,user
+		WHERE accepted.a_ud_id = userdetail.ud_id 
+		AND user.u_id=userdetail.ud_u_id 
+		AND accepted.a_manager=#{m_manager} 
+		AND user.u_level=1
+	</select>
+	<select id="checkStuff" parameterType="Integer" resultType="main.java.com.msz.entity.UserDetail">
+	SELECT ud_id, ud_realName,ud_age,ud_gender,
+		ud_nation,ud_native,ud_education,
+		ud_experience,ud_school,ud_health,
+		ud_phone,ud_email,ud_address,ud_hobby,
+		ud_entryTime,ud_leaveTime,ud_p_id,ud_u_id
+	FROM userDetail,user,accepted
+	WHERE accepted.a_manager=#{u_id} 
+	AND accepted.a_ud_id=userDetail.ud_id 
+	AND userDetail.ud_u_id=user.u_id
+	AND user.u_level=2
+	
+	</select>
+	<update id="updateHireMessage" parameterType="java.util.HashMap">
+		UPDATE accepted
+		SET a_hire = 'y', a_hireTime=#{a_hireTime}
+		WHERE a_ud_id=#{a_ud_id}
+	</update>
+    <update id="updateUserLevel" parameterType="java.lang.Integer">
+        UPDATE user
+		SET u_level = 2
+		WHERE u_id=#{u_id}
+    </update>
+</mapper>

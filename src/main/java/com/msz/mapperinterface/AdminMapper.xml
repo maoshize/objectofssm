@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper    
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="main.java.com.msz.mapperinterface.AdminMapper">
+	<delete id="fireStuff" parameterType="Integer">
+		DELETE
+		FROM user
+		WHERE
+		u_id=#{id}
+	</delete>
+	<delete id="deleteUserDetail" parameterType="Integer">
+		DELETE
+		FROM
+		userDetail
+		WHERE ud_u_id=#{id}
+	</delete>
+	<select id="checkPositionAndStuff" parameterType="Integer"
+		resultType="main.java.com.msz.entity.UserDetail">
+		SELECT *
+		FROM userdetail
+		
+	</select>
+	<select id="getAllDepartment" resultType="main.java.com.msz.entity.Department">
+		SELECT *
+		FROM department
+	</select>
+
+	<select id="getAllPosition" resultType="main.java.com.msz.entity.Position">
+		SELECT *
+		FROM positions
+	</select>
+	<select id="getAllTraining" resultType="main.java.com.msz.entity.Training">
+		SELECT *
+		FROM training
+	</select>
+	<select id="getAllPositionAndDepartment" resultType="main.java.com.msz.entity.PositionAndDepartment">
+		SELECT
+		p_position, p_salary, p_id, d_department
+		FROM positions , department
+		WHERE p_d_id = d_id
+	</select>
+	<delete id="deletePosition" parameterType="Integer">
+		DELETE
+		FROM positions
+		WHERE p_id = #{p_id}
+	</delete>
+	<insert id="addPosition" parameterType="main.java.com.msz.entity.Position">
+		INSERT INTO
+		positions(p_position,p_salary,p_d_id)
+		VALUES(#{p_position},#{p_salary},#{p_d_id})
+	</insert>
+
+</mapper>

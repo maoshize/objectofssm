@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper    
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="main.java.com.msz.mapperinterface.UserMapper">
+	<select id="findAllUser" resultType="main.java.com.msz.entity.User">
+		SELECT *
+		FROM user
+	</select>
+	<select id="findUserByName" resultType="main.java.com.msz.entity.User"
+		parameterType="String">
+		SELECT *
+		FROM user
+		WHERE u_name = #{name}
+	</select>
+	<select id="findDetailById" resultType="main.java.com.msz.entity.UserDetail"
+		parameterType="java.lang.Integer">
+		SELECT *
+		FROM userdetail
+		WHERE ud_u_id = #{id}
+	</select>
+	<insert id="insertUser" parameterType="main.java.com.msz.entity.User">
+		INSERT INTO user
+		(u_name,u_pass,u_level)
+		VALUES (#{u_name},#{u_pass},#{u_level});
+	</insert>
+	<insert id="insertUserDetail" parameterType="main.java.com.msz.entity.UserDetail">
+		INSERT INTO
+		userDetail (ud_realName,ud_age,ud_gender,
+		ud_nation,ud_native,ud_education,
+		ud_experience,ud_school,ud_health,
+		ud_phone,ud_email,ud_address,ud_hobby,
+		ud_entryTime,ud_leaveTime,ud_p_id,ud_u_id)
+		VALUES
+		(#{ud_realName},#{ud_age},#{ud_gender},
+		#{ud_nation},#{ud_native},#{ud_education},
+		#{ud_experience},#{ud_school},#{ud_health},
+		#{ud_phone},#{ud_email},#{ud_address},#{ud_hobby},
+		#{ud_entryTime},#{ud_leaveTime},#{ud_p_id},#{ud_u_id});
+	</insert>
+	<update id="updateUserDetail" parameterType="main.java.com.msz.entity.UserDetail">
+		UPDATE userDetail
+		SET
+		ud_realName=#{ud_realName}, ud_age=#{ud_age},
+		ud_gender=#{ud_gender},
+		ud_nation =#{ud_nation} ,ud_native
+		=#{ud_native} , ud_education=#{ud_education},
+		ud_experience
+		=#{ud_experience},ud_school =#{ud_school} ,ud_health = #{ud_health},
+		ud_phone=#{ud_phone} , ud_email=#{ud_email} , ud_address=#{ud_address}
+		,ud_hobby =#{ud_hobby} ,
+		ud_entryTime=#{ud_entryTime} ,ud_leaveTime
+		=#{ud_leaveTime} , ud_p_id=#{ud_p_id} ,
+		ud_u_id=#{ud_u_id}
+		WHERE
+		ud_u_id=#{ud_u_id}
+	</update>
+	<update id="changePassword" parameterType="HashMap">
+		UPDATE user
+		SET
+		u_pass=#{newpassword}
+		WHERE
+		u_name=#{u_name}
+	</update>
+	<select id="getDepartmentById" resultType="String"
+		parameterType="Integer">
+		SELECT d_department
+		FROM department
+		WHERE d_id=#{d_id}
+	</select>
+	<select id="getPosition" resultType="String" parameterType="Integer">
+		SELECT p_position
+		FROM positions
+		WHERE p_id=#{p_id}
+	</select>
+
+	<select id="checkMessage" parameterType="Integer"
+		resultType="main.java.com.msz.entity.Accepted">
+		SELECT a_ud_id, a_deliverTime ,a_check ,a_interview ,
+		a_interviewTime ,a_hire ,a_hireTime,a_delete,a_manager
+		FROM accepted ,
+		userdetail
+		WHERE a_ud_id=ud_id AND ud_u_id=#{u_id}
+	</select>
+</mapper>

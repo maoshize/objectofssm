@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper    
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="main.java.com.msz.mapperinterface.StuffMapper">
+	<insert id="changeOnWork" parameterType="HashMap">
+		INSERT INTO
+		work(w_day,w_on,w_u_id,w_late)
+		VALUES(#{date},#{time},#{u_id},#{w_late})
+	</insert>
+	<update id="changeOffWork" parameterType="HashMap">
+		UPDATE work
+		SET
+		w_off=#{time} , w_early=#{w_early}
+		WHERE w_u_id=#{u_id} AND
+		w_day =
+		#{date}
+	</update>
+	<select id="getWorkRecordByUid" parameterType="Integer"
+		resultType="main.java.com.msz.entity.Work">
+		SELECT *
+		FROM work
+		WhERE w_u_id = #{uid}
+	</select>
+	<select id="getAllRewards" resultType="main.java.com.msz.entity.Rewards"
+		parameterType="Integer">
+		SELECT *
+		FROM rewards
+		WHERE r_u_id = #{u_id}
+	</select>
+	<select id="getAllWages" resultType="main.java.com.msz.entity.Wages"
+		parameterType="Integer">
+		SELECT *
+		FROM wages
+		WHERE w_u_id = #{u_id}
+	</select>
+	<select id="checkDissent" resultType="main.java.com.msz.entity.Dissent"
+		parameterType="Integer">
+		SELECT *
+		FROM dissent
+		WHERE d_u_id = #{u_id}
+	</select>
+	<insert id="addDissent" parameterType="java.util.HashMap">
+		INSERT INTO
+		dissent(d_time,d_w_time,d_dissent,d_u_id)
+		VALUES(#{now},#{wageDate},#{reason},#{u_id})
+	</insert>
+</mapper>
